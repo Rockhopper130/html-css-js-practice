@@ -12,35 +12,33 @@ body, html {
     justify-content: center;
     align-items: center;
 
-    width: 1fr;
     height: 15vh;
-    
     background-color: #A9CBD9;
-
+    z-index: 1;
+    
     font-size: 64px;
     font-weight: 600;
-    z-index: 1;
 }
 
 .content{
-    position: fixed;
     display: flex;
-    width: 100vw;
-    /* z-index: -2; */
 }
 
 .gallery {
     position: sticky;
     top: 15vh;
     height: 85vh;
-    width: 40vw;
-    display: grid;
     justify-items: center;
-    grid-template-rows: repeat(2, 1fr) 0.1fr;
+    flex: 2;
+    
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+    
     padding: 16px;
     background-color: #092137;
+    
     box-sizing: border-box;
     filter: drop-shadow(0 0 1.75em #6e6e6e);
 }
@@ -52,6 +50,7 @@ body, html {
     height: 100%;
     border-radius: 16px;
     width: 100%;
+    justify-content: auto;
 }
 
 .thumbnail:hover{
@@ -62,7 +61,9 @@ body, html {
 }
 
 .thumbnail-image{
-    height: 80%;
+    display: flex;
+    /* flex: 1 */
+    height: 20vh;
     width: 80%;
     object-fit: cover;
     border-radius: 8px;
@@ -70,7 +71,9 @@ body, html {
 }
 
 .thumbnail-caption{
+    margin: 16px;
     color: white;
+    text-align: center;
 }
 
 .page-selector{
@@ -81,7 +84,6 @@ body, html {
 }
 
 .page-button{
-    /* border-radius: 100%; */
     width: 32px;
     height: 32px;
     display: flex;
@@ -94,11 +96,6 @@ body, html {
 }
 
 .page-button:hover{
-    /* 
-    background-color: #144777;
-    transition: background-color .1s;
-    transition-timing-function: ease-in-out;
-    */
     background-color: #144777;
     font-weight: 800;
     cursor: pointer;
@@ -115,11 +112,9 @@ body, html {
     top: 15vh;
     height: 85vh;
     box-sizing: border-box;
-    display: flex;
-    flex-grow: 1;
     justify-content: center;
-    /* padding: 16px; */
-    /* z-index: -1; */
+    display: flex;
+    flex: 3;
 }
 
 .main-image{
