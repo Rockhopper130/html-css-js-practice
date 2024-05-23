@@ -1,7 +1,7 @@
 import { data as imageData } from "./img_data.js";
 
+const totalPages = Math.floor(imageData.length / 4);
 var currentPage;
-var totalPages = Math.floor(imageData.length / 4);
 
 setCurrentPage(1);
 
@@ -55,9 +55,7 @@ function buildPageSelector(currentPage, totalPages) {
     let prevButtons = document.getElementsByClassName("page-button");
     Array.from(prevButtons).forEach(prevButton => {
         prevButton.remove();
-    });
-
-    
+    });    
 
     if (currentPage == totalPages) generatePageButton(currentPage - 2, false);
     if (currentPage > 1) generatePageButton(currentPage - 1, false);
