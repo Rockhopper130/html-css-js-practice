@@ -12,11 +12,11 @@ body, html {
     justify-content: center;
     align-items: center;
 
-    height: 15vh;
+    height: 10vh;
     background-color: #A9CBD9;
     z-index: 1;
     
-    font-size: 64px;
+    font-size: 48px;
     font-weight: 600;
 }
 
@@ -27,7 +27,7 @@ body, html {
 .gallery {
     position: sticky;
     top: 15vh;
-    height: 85vh;
+    height: 90vh;
     justify-items: center;
     flex: 2;
     
@@ -110,7 +110,7 @@ body, html {
 .main-area{
     position: sticky;
     top: 15vh;
-    height: 85vh;
+    height: 90vh;
     box-sizing: border-box;
     justify-content: center;
     display: flex;
