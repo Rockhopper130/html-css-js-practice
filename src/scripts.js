@@ -2,8 +2,25 @@ import { data as imageData } from "./img_data.js";
 
 const totalPages = Math.floor(imageData.length / 4);
 var currentPage;
-
 setCurrentPage(1);
+setActiveThumbnail(imageData[0].previewImage)
+setMainImage(imageData[0].previewImage);
+
+let clickCount = 0;
+let logoDiv = document.getElementsByClassName("logo-symbol")[0];
+logoDiv.onclick = function() {
+    changeColor();
+};
+
+function changeColor(){
+    clickCount++;
+    logoDiv.className = "logo-symbol click" + clickCount;
+    console.log(logoDiv);
+    if(clickCount == 5){
+        clickCount = 0;
+        logoDiv.className = "logo-symbol";
+    }
+}
 
 function showImages(currentPage) {
 
@@ -14,16 +31,31 @@ function showImages(currentPage) {
         prevImage.remove();
     });
 
-    for (let i = 4 * (currentPage - 1); i < 4 * (currentPage); i++) {
+    for (let i = 4 * (currentPage)-1; i >= 4 * (currentPage-1); --i) {
         let image = imageData[i];
-        console.log(image);
 
         let div = document.createElement('div');
         div.className = "thumbnail";
         div.innerHTML = "<img src=" + image.previewImage + " class=\"thumbnail-image\" >";
         div.innerHTML += "<p class=\"thumbnail-caption\">" + image.title + "</p>";
+        div.onclick = function() {
+            setActiveThumbnail(image.previewImage);
+        };
         element.prepend(div);
     }
+}
+
+function setActiveThumbnail(pathToImage){
+    let thumbnails = document.getElementsByClassName("thumbnail");
+    Array.from(thumbnails).forEach(thumbnail => {
+        if(thumbnail.querySelector("img").src == pathToImage){
+            thumbnail.className = "thumbnail active";
+            setMainImage(pathToImage);
+        }
+        else if(thumbnail.className == "thumbnail active"){
+            thumbnail.className = "thumbnail";
+        }
+    });
 }
 
 function generatePageButton(pageNumber, isActive) {
@@ -45,7 +77,6 @@ function generatePageButton(pageNumber, isActive) {
 }
 
 function setCurrentPage(clickedPage) {
-    console.log(clickedPage);
     currentPage = clickedPage;
     buildPageSelector(currentPage, totalPages);
 }
@@ -57,10 +88,26 @@ function buildPageSelector(currentPage, totalPages) {
         prevButton.remove();
     });    
 
+    let arrows = document.getElementsByClassName("arrow-button");
+    arrows[1].onclick = function () {
+        if(currentPage != totalPages) setCurrentPage(currentPage+1);
+    };
+    arrows[0].onclick = function () {
+        if(currentPage != 1) setCurrentPage(currentPage-1);
+    };
+
+    let pageSelector = document.getElementsByClassName("page-selector")[0];
+
+    pageSelector.appendChild(arrows[1]);
     if (currentPage == totalPages) generatePageButton(currentPage - 2, false);
     if (currentPage > 1) generatePageButton(currentPage - 1, false);
     generatePageButton(currentPage, true);
     if (currentPage < totalPages) generatePageButton(currentPage + 1, false);
     if (currentPage == 1) generatePageButton(currentPage + 2, false);
+    pageSelector.appendChild(arrows[1]);
+}
 
+function setMainImage(imagePath){
+    let mainDisplay = document.getElementsByClassName("main-image")[0];
+    mainDisplay.src = imagePath;
 }
