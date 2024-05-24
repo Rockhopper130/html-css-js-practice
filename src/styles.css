@@ -27,10 +27,11 @@ html {
     color: #092137;
 }
 
-.logo-symbol{
+.logo-symbol {
     height: 60%;
     aspect-ratio: 1;
-    background-color: #092137; /* Change this to your desired hex color */
+    background-color: #092137;
+    /* Change this to your desired hex color */
     -webkit-mask: url('logo.svg') no-repeat center;
     mask: url('logo.svg') no-repeat center;
     -webkit-mask-size: contain;
@@ -78,12 +79,12 @@ html {
 }
 
 .thumbnail:hover img {
-    height: 25vh;
+    height: 25svh;
     width: 90%;
     transition: .2s;
 }
 
-.thumbnail.active img{
+.thumbnail.active img {
     height: 25vh;
     width: 90%;
 }
@@ -103,7 +104,6 @@ html {
     margin: 1rem;
     color: white;
     text-align: center;
-    /* font-size: 0.8rem; */
 }
 
 .page-selector {
@@ -113,7 +113,8 @@ html {
     grid-column: 1/-1;
 }
 
-.page-button, .arrow-button {
+.page-button,
+.arrow-button {
     width: 2rem;
     height: 2rem;
     display: flex;
@@ -122,11 +123,12 @@ html {
     color: white;
     transition-timing-function: ease-in-out;
     -webkit-user-select: none;
-    -ms-user-select: none; 
+    -ms-user-select: none;
     user-select: none;
 }
 
-.page-button:hover, .arrow-button:hover {
+.page-button:hover,
+.arrow-button:hover {
     background-color: #144777;
     font-weight: 800;
     cursor: pointer;
@@ -162,7 +164,7 @@ html {
     filter: drop-shadow(0 0 0.75em #6e6e6e);
 }
 
-@media (min-width: 600px) and (max-width: 1250px) {
+@media (min-width: 800px) and (max-width: 1250px) {
 
     body,
     html {
@@ -170,29 +172,28 @@ html {
         overflow: scroll;
     }
 
-    .logo{
+    .logo {
         height: 10vh;
         font-size: 2rem;
         background-color: #092137;
         color: white;
     }
 
-    .logo-symbol{
-        /* filter: invert(1) saturate(0) contrast(2); */
+    .logo-symbol {
         background-color: white;
     }
 
-    .content{
+    .content {
         flex-direction: column-reverse;
     }
 
-    .gallery{
-        grid-template: 1fr / repeat(4,1fr);
+    .gallery {
+        grid-template: 1fr / repeat(4, 1fr);
         flex: none;
         height: 30vh;
     }
 
-    .thumbnail:hover img{
+    .thumbnail:hover img {
         height: 10vh;
     }
 
@@ -200,23 +201,23 @@ html {
         height: 10vh;
     }
 
-    .thumbnail.active img{
+    .thumbnail.active img {
         height: 10vh;
     }
 
-    .main-area{
+    .main-area {
         flex: none;
         height: 60vh;
     }
 
-    .main-image{
+    .main-image {
         max-height: 60vh;
     }
 
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
 
     body,
     html {
@@ -224,63 +225,70 @@ html {
         overflow: scroll;
     }
 
-    .logo{
+    .logo {
         height: 10vh;
         font-size: 2rem;
         background-color: #092137;
         color: white;
     }
 
-    .logo-symbol{
-        filter: invert(1) saturate(0) contrast(2);
-        height: 4rem;
+    .logo-symbol {
+        background-color: white;
     }
 
-    .content{
+    .content {
         flex-direction: column-reverse;
     }
 
-    .gallery{
-        grid-template: 1fr / repeat(4,1fr);
+    .gallery {
+        grid-template: 1fr / repeat(4, 1fr);
         flex: none;
         height: 30vh;
     }
 
-    .thumbnail:hover img{
+    .thumbnail:hover img {
         height: 10vh;
-    }
-
-    .thumbnail p{
-        /* display: none; */
     }
 
     .thumbnail-image {
         height: 10vh;
     }
 
-    .main-area{
+    .thumbnail.active img {
+        height: 10vh;
+    }
+
+    .thumbnail-caption{
+        width: 15vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .main-area {
         flex: none;
         height: 60vh;
     }
 
-    .main-image{
+    .main-image {
         max-height: 60vh;
     }
 
 }
 
 
-
-
-.click1{
+.click1 {
     background-color: #FE654F;
 }
-.click2{
+
+.click2 {
     background-color: #1e1e;
 }
-.click3{
+
+.click3 {
     background-color: purple;
 }
-.click4{
-    background-color:  yellow;
+
+.click4 {
+    background-color: yellow;
 }
