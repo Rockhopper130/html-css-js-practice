@@ -9,6 +9,11 @@ html {
     font-size: 16px;
 }
 
+button{
+    background-color: #092137;
+    border: none;
+}
+
 .logo {
     position: sticky;
     display: flex;
@@ -138,6 +143,16 @@ html {
     background-color: #2583dc;
 }
 
+.disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.disabled:hover{
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .material-icons {
     font-variation-settings: 'opsz' 1;
 }
@@ -149,7 +164,9 @@ html {
     justify-content: center;
     align-items: center;
     display: flex;
+    flex-direction: column;
     flex: 3;
+    padding: 2rem;
 }
 
 .main-image {
@@ -208,9 +225,11 @@ html {
     .main-area {
         flex: none;
         height: 60vh;
+        padding: 0;
     }
 
     .main-image {
+        height: 90%;
         max-height: 60vh;
     }
 
@@ -268,27 +287,11 @@ html {
     .main-area {
         flex: none;
         height: 60vh;
+        padding: 3rem;
     }
 
     .main-image {
         max-height: 60vh;
     }
 
-}
-
-
-.click1 {
-    background-color: #FE654F;
-}
-
-.click2 {
-    background-color: #1e1e;
-}
-
-.click3 {
-    background-color: purple;
-}
-
-.click4 {
-    background-color: yellow;
 }

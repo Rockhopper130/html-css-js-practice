@@ -1,72 +1,71 @@
 import { data as imageData } from "./img_data.js";
 
 const totalPages = Math.floor(imageData.length / 4);
-var currentPage;
+
+let allCaptions = Array(imageData.length);
+imageData.forEach((element,index) => {
+    allCaptions[index] = element.title;
+});
+
+let currentPage, currentImage = 0;
 setCurrentPage(1);
-setActiveThumbnail(0)
-setMainImage(imageData[0].previewImage);
+setActiveThumbnail(currentImage);
+setMainImage(imageData[0].previewImage, imageData[0].title);
 
-
-let logoDiv = document.getElementsByClassName("logo-symbol")[0];
-logoDiv.onclick = function () {
-    changeColor();
-};
-
-var clickCount = 0, repeatCount = 0;
-var disco;
-
-function changeColor() {
-    if(repeatCount == 10) {
-        logoDiv.className = "logo-symbol";
-        return;
-    }
-    clickCount++;
-    logoDiv.className = "logo-symbol click" + clickCount;
-    if (clickCount == 5) {
-        repeatCount++;
-        clickCount = 0;
-        setInterval(changeColor, 1000);
-    }
-}
+const captionEdit = document.getElementsByClassName("image-caption")[0];
+captionEdit.addEventListener("input", function() {
+    // console.log(event.target.textContent);
+    allCaptions[currentImage] = event.target.textContent;
+    changeCaption();
+});
 
 function showImages(currentPage) {
 
-    let element = document.getElementsByClassName("gallery")[0];
+    const element = document.getElementsByClassName("gallery")[0];
 
-    let prevImages = element.getElementsByClassName("thumbnail");
+    const prevImages = element.getElementsByClassName("thumbnail");
     Array.from(prevImages).forEach(prevImage => {
         prevImage.remove();
     });
 
     for (let i = 4 * (currentPage) - 1; i >= 4 * (currentPage - 1); --i) {
-        let image = imageData[i];
+        const image = imageData[i];
 
-        let div = document.createElement('div');
-        div.className = "thumbnail";
-        div.innerHTML = "<img src=" + image.previewImage + " class=\"thumbnail-image\" >";
-        div.innerHTML += "<p class=\"thumbnail-caption\">" + image.title + "</p>";
-        div.onclick = function () {
+        const imageButton = document.createElement('button');
+        imageButton.className = "thumbnail";
+
+        const imageThumbnail = document.createElement("img");
+        imageThumbnail.className = "thumbnail-image"
+        imageThumbnail.src = image.previewImage;
+
+        const imageName = document.createElement("p");
+        imageName.className = "thumbnail-caption";
+        imageName.textContent = allCaptions[i];
+
+        imageButton.appendChild(imageThumbnail);
+        imageButton.appendChild(imageName);
+
+        imageButton.onclick = function () {
             setActiveThumbnail(i);
         };
-        element.prepend(div);
+        element.prepend(imageButton);
     }
 }
 
 function setActiveThumbnail(i) {
-    let pathToImage = imageData[i].previewImage;
-    let thumbnails = document.getElementsByClassName("thumbnail");
+    currentImage = i;
+    setMainImage(imageData[i].previewImage, allCaptions[i]);
+    const thumbnails = document.getElementsByClassName("thumbnail");
     Array.from(thumbnails).forEach(thumbnail => {
-        if (thumbnail.className == "thumbnail active") {
-            thumbnail.className = "thumbnail";
-        }
+        thumbnail.classList.remove("active");
     });
-    thumbnails[i%4].className = "thumbnail active";
+    thumbnails[i % 4].classList.add("active");
 }
 
 function generatePageButton(pageNumber, isActive) {
-    let pageSelector = document.getElementsByClassName("page-selector")[0];
+    const pageSelector = document.getElementsByClassName("page-selector")[0];
 
-    let pageButton = document.createElement('div');
+    const pageButton = document.createElement('button');
     pageButton.className = "page-button";
     pageButton.onclick = function () {
         setCurrentPage(pageNumber);
@@ -74,7 +73,7 @@ function generatePageButton(pageNumber, isActive) {
     pageButton.innerHTML = pageNumber;
 
     if (isActive) {
-        pageButton.className += " active";
+        pageButton.classList.add("active")
         showImages(pageNumber);
     }
 
@@ -88,31 +87,47 @@ function setCurrentPage(clickedPage) {
 
 function buildPageSelector(currentPage, totalPages) {
 
-    let prevButtons = document.getElementsByClassName("page-button");
+    const prevButtons = document.getElementsByClassName("page-button");
     Array.from(prevButtons).forEach(prevButton => {
         prevButton.remove();
     });
 
-    let arrows = document.getElementsByClassName("arrow-button");
+    const arrows = document.getElementsByClassName("arrow-button");
     arrows[1].onclick = function () {
+        arrows[1].classList.remove("disabled");
         if (currentPage != totalPages) setCurrentPage(currentPage + 1);
+        else arrows[1].classList.add("disabled");
     };
     arrows[0].onclick = function () {
+        arrows[0].classList.remove("disabled");
         if (currentPage != 1) setCurrentPage(currentPage - 1);
+        else arrows[0].classList.add("disabled");
     };
 
-    let pageSelector = document.getElementsByClassName("page-selector")[0];
+    const pageSelector = document.getElementsByClassName("page-selector")[0];
 
     pageSelector.appendChild(arrows[1]);
     if (currentPage == totalPages) generatePageButton(currentPage - 2, false);
     if (currentPage > 1) generatePageButton(currentPage - 1, false);
+
     generatePageButton(currentPage, true);
+
     if (currentPage < totalPages) generatePageButton(currentPage + 1, false);
     if (currentPage == 1) generatePageButton(currentPage + 2, false);
     pageSelector.appendChild(arrows[1]);
 }
 
-function setMainImage(imagePath) {
-    let mainDisplay = document.getElementsByClassName("main-image")[0];
+function setMainImage(imagePath, imageCaption) {
+    const mainDisplay = document.getElementsByClassName("main-image")[0];
+    const caption = document.getElementsByClassName("image-caption")[0];
+    caption.textContent = imageCaption;
     mainDisplay.src = imagePath;
+}
+
+function changeCaption(){
+    const thumbnailCaptions = document.getElementsByClassName("thumbnail-caption");
+    thumbnailCaptions[currentImage % 4].textContent = allCaptions[currentImage];
+
+    const caption = document.getElementsByClassName("image-caption")[0];
+    caption.textContent = allCaptions[currentImage];
 }
