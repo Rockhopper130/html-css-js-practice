@@ -82,10 +82,10 @@ function generatePageButton(pageNumber, isActive) {
 
 function setCurrentPage(clickedPage) {
     currentPage = clickedPage;
-    buildPageSelector(currentPage, totalPages);
+    buildPageSelector(currentPage);
 }
 
-function buildPageSelector(currentPage, totalPages) {
+function buildPageSelector(currentPage) {
 
     const prevButtons = document.getElementsByClassName("page-button");
     Array.from(prevButtons).forEach(prevButton => {
@@ -93,16 +93,19 @@ function buildPageSelector(currentPage, totalPages) {
     });
 
     const arrows = document.getElementsByClassName("arrow-button");
+
     arrows[1].onclick = function () {
-        arrows[1].classList.remove("disabled");
         if (currentPage != totalPages) setCurrentPage(currentPage + 1);
-        else arrows[1].classList.add("disabled");
     };
     arrows[0].onclick = function () {
-        arrows[0].classList.remove("disabled");
         if (currentPage != 1) setCurrentPage(currentPage - 1);
-        else arrows[0].classList.add("disabled");
     };
+
+    if(currentPage == 1) arrows[0].classList.add("disabled");
+    else arrows[0].classList.remove("disabled");
+
+    if(currentPage == totalPages) arrows[1].classList.add("disabled");
+    else arrows[1].classList.remove("disabled");
 
     const pageSelector = document.getElementsByClassName("page-selector")[0];
 
