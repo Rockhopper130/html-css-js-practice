@@ -2,18 +2,16 @@ import { data as imageData } from "./img_data.js";
 
 const totalPages = Math.floor(imageData.length / 4);
 
-let allCaptions = Array(imageData.length);
-imageData.forEach((element,index) => {
-    allCaptions[index] = element.title;
-});
+let allCaptions = imageData.map((element) => (element.title));
 
 let currentPage, currentImage = 0;
+
 setCurrentPage(1);
 setActiveThumbnail(currentImage);
 setMainImage(imageData[0].previewImage, imageData[0].title);
 
 const captionEdit = document.getElementsByClassName("image-caption")[0];
-captionEdit.addEventListener("input", function() {
+captionEdit.addEventListener("input", function () {
     // console.log(event.target.textContent);
     allCaptions[currentImage] = event.target.textContent;
     changeCaption();
@@ -24,9 +22,9 @@ function showImages(currentPage) {
     const element = document.getElementsByClassName("gallery")[0];
 
     const prevImages = element.getElementsByClassName("thumbnail");
-    Array.from(prevImages).forEach(prevImage => {
-        prevImage.remove();
-    });
+    while (prevImages.length != 0) {
+        prevImages[0].remove();
+    }
 
     for (let i = 4 * (currentPage) - 1; i >= 4 * (currentPage - 1); --i) {
         const image = imageData[i];
@@ -53,13 +51,11 @@ function showImages(currentPage) {
 }
 
 function setActiveThumbnail(i) {
-    currentImage = i;
     setMainImage(imageData[i].previewImage, allCaptions[i]);
     const thumbnails = document.getElementsByClassName("thumbnail");
-    Array.from(thumbnails).forEach(thumbnail => {
-        thumbnail.classList.remove("active");
-    });
+    thumbnails[currentImage % 4].classList.remove("active");
     thumbnails[i % 4].classList.add("active");
+    currentImage = i;
 }
 
 function generatePageButton(pageNumber, isActive) {
@@ -101,10 +97,10 @@ function buildPageSelector(currentPage) {
         if (currentPage != 1) setCurrentPage(currentPage - 1);
     };
 
-    if(currentPage == 1) arrows[0].classList.add("disabled");
+    if (currentPage == 1) arrows[0].classList.add("disabled");
     else arrows[0].classList.remove("disabled");
 
-    if(currentPage == totalPages) arrows[1].classList.add("disabled");
+    if (currentPage == totalPages) arrows[1].classList.add("disabled");
     else arrows[1].classList.remove("disabled");
 
     const pageSelector = document.getElementsByClassName("page-selector")[0];
@@ -127,10 +123,54 @@ function setMainImage(imagePath, imageCaption) {
     mainDisplay.src = imagePath;
 }
 
-function changeCaption(){
-    const thumbnailCaptions = document.getElementsByClassName("thumbnail-caption");
-    thumbnailCaptions[currentImage % 4].textContent = allCaptions[currentImage];
+function changeCaption() {
+
+    let currentCaption = allCaptions[currentImage];
+    // currentCaption = ellipsify(currentCaption);
+
+    const thumbnailCaption = document.getElementsByClassName("thumbnail-caption")[currentImage % 4];
+    thumbnailCaption.textContent = ellipsify(thumbnailCaption, currentCaption);
 
     const caption = document.getElementsByClassName("image-caption")[0];
-    caption.textContent = allCaptions[currentImage];
+    caption.textContent = currentCaption;
+
+}
+
+function characterWidth(ch) {
+
+    const tempSpan = document.createElement("span");
+    tempSpan.innerText = ch;
+
+    document.body.appendChild(tempSpan);
+    const charWidth = tempSpan.offsetWidth;
+    document.body.removeChild(tempSpan);
+
+    return charWidth;
+}
+
+
+function ellipsify(container, text) {
+
+    const maxWidth = container.clientWidth;
+    const textWidth = characterWidth(text);
+
+    if(window.innerWidth <= 800) return text;
+    
+    if(textWidth < maxWidth) {
+        return text;
+    }
+    
+    const charLimit = Math.floor(maxWidth/(2*characterWidth("M")));
+
+    console.log(Math.floor(maxWidth/(2*characterWidth("M"))));
+    
+    const start = text.slice(0,charLimit);
+    const end = text.slice(-charLimit);
+    
+    const numDots = (maxWidth - characterWidth(start + end)) / characterWidth(".");
+    const mid = ".".repeat(numDots);
+    
+    // console.log(start.concat(mid,end));
+
+    return start.concat(mid,end);
 }
